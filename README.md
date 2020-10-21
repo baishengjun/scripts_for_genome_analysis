@@ -59,3 +59,7 @@ awk 'BEGIN{OFS="\t"}{print $1, tre $NF}' genome_MboI.txt > MZHY.chrom.size
 ```
 busco -m genome -i populus_deltoides.fasta -o run_busco -l embryophyta_odb10 -c 20
 ```
+## Repeat annotation
+## Noncoding RNA anntation
+## Gene prediction
+## Gene annatation
