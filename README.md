@@ -1,5 +1,5 @@
 # scripts_for_genome_analysis
-## Genome Assembly
+## Genome assembly
 ```
 canu -p ONT -d populus_deltoides -t 40 genomeSize=450m -nanopore-raw total_populus_deltiodes.fastq.gz
 ```
@@ -38,7 +38,7 @@ purge_haplotigs hist -b aligned.bam -g nextpolished.fasta -t 40
 purge_haplotigs cov -i aligned.bam.gencov -l 10 -m 72 -h 180 
 purge_haplotigs purge -g nextpolished.fasta -a 95 -c coverage_stats.csv -t 20 -d -b aligned.bam
 ```
-## scaffold contigs based on HiC data
+## Scaffold contigs based on HiC data
 ### align the Hi-C reads to draft genome and computed the Hi-C contact frequency using Juicer pipeline
 ```
 bwa index curated.fasta
