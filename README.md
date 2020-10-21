@@ -55,3 +55,7 @@ awk 'BEGIN{OFS="\t"}{print $1, tre $NF}' genome_MboI.txt > MZHY.chrom.size
 ```
 ~/bash-4.0/bash ~/3d-dna/run-asm-pipeline-post-review.sh -r curated_final.review.assembly  ../../reference/curated.fasta ../../aligned/merged_nodups.txt
 ```
+## BUSCO analysis
+```
+busco -m genome -i populus_deltoides.fasta -o run_busco -l embryophyta_odb10 -c 20
+```
