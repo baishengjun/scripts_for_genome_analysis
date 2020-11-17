@@ -3,14 +3,14 @@
 ```
 canu -p ONT -d populus_deltoides -t 40 genomeSize=450m -nanopore-raw total_populus_deltiodes.fastq.gz
 ```
-## polish genome for three rounds with racon and one round with Medaka using raw Nanopore reads
+## Polish genome for three rounds with racon and one round with Medaka using raw Nanopore reads
 ```
 racon -t 40 total_populus_deltiodes.fastq racon01.paf ont.contigs.fasta >round01.fasta
 racon -t 40 total_populus_deltiodes.fastq racon02.paf round01.fasta > round02.fasta
 racon -t 50 total_populus_deltiodes.fastq racon03.paf round02.fasta > racon03.fasta
 medaka_consensus -i total_populus_deltiodes.fastq.gz -d round03.fasta -o medaka_polished -t 40 -m r941_min_fast_g303
 ```
-## polish genome using NGS data 
+## Polish genome using NGS data 
 `nextpolish run.cfg`
 ### run.cfg
 ```
@@ -31,7 +31,7 @@ polish_options = -p {multithread_jobs}
 sgs_fofn = ./sgs.fofn
 sgs_options = -max_depth 100
 ```
-##  identify and remove redundant heterozygous contigs
+##  Identify and remove redundant heterozygous contigs
 ```
 minimap2 -t 40 -ax map-ont nextpolished.fasta total_populus_deltiodes.fastq.gz --secondary=no  | samtools sort -m 5G -o aligned.bam -T tmp.ali
 purge_haplotigs hist -b aligned.bam -g nextpolished.fasta -t 40
@@ -72,7 +72,7 @@ RepeatMasker -e ncbi -pa 10 -dir . -gff -xsmall -nolow -lib merge.lib  populus_d
 ```
 funannotate util prot2genome -g populus_deltoides.fasta.masked  -p merge_protein.fa -f tblastn  --cpus 30 -o homolog_deltoides.gff3 --logfile homlog.log
 ```
-### RNA-seq-assisted
+### RNA-seq-assisted using Trinity and PASA
 ```
 Trinity --seqType fq --left totalRNAseq_1.fq --right totalRNAseq_2.fq --CPU 40 --max_memory 200G 
 seqclean Trinity.fasta  -v UniVec
@@ -116,7 +116,7 @@ snap -gff deltiodes.hmm populus_deltoides.fasta.masked  > deltoides_snap.gff
 gmes_petap.pl --ES --core 10 --sequence populus_deltoides.fasta.masked
 gtf2gff.pl --gff3 <genemark.gtf --out=genemarkES_deltoides.gff3
 ```
-### combine results using EVM
+### Combine results using EVM
 ```
 partition_EVM_inputs.pl --genome populus_deltoides.fasta.masked  --gene_predictions denovo.gff3 --protein_alignments homolog_deltoides.gff3 --transcript_alignments sql_lite.assemblies.fasta.transdecoder.genome.gff3 --repeats repeat.gff3  --segmentSize 100000 --overlapSize 10000 --partition_listing partitions_list.out
 write_EVM_commands.pl --genome populus_deltoides.fasta --repeats repeat.gff3 --gene_predictions denovo.gff3 --transcript_alignments sql_lite.assemblies.fasta.transdecoder.genome.gff3  --weights /mnt/sdf1/boshengjun/worka/populus_deltoides/Gene_prediction/abinitio/EVM/weights.txt --output_file_name evm.out --partitions partitions_list.out > commands.list
